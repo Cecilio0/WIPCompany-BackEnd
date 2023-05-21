@@ -18,7 +18,13 @@ export interface LoginUser {
     password:           string
 }
 
-export interface CheckUserData{
+export interface CheckUserData {
     username:          string,
     correo:            string
+}
+
+export interface UpdateSave {
+    guardado1:          string,
+    guardado2:          string,
+    guardado3:          string
 }

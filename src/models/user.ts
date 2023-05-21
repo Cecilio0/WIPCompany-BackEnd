@@ -39,6 +39,15 @@ const UserSchema = new Schema<User>(
         fecha_nacimiento:   {
             type: Date,
             required: true,
+        },
+        guardado1:   {
+            type: String,
+        },
+        guardado2:   {
+            type: String,
+        },
+        guardado3:   {
+            type: String,
         }
     },
     {

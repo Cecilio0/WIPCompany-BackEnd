@@ -3,7 +3,7 @@ import { getSaves, logInUser, checkField, registerUser, overwriteSaves} from "..
 
 const router = Router();
 //router.tipoRequest('rutaALaRequest', (request, respuesta))
-router.get('/:username/:password', logInUser);
+router.get('/login/:username/:password', logInUser);
 
 router.post('/check', checkField);
 
@@ -11,6 +11,6 @@ router.post('/register', registerUser);
 
 router.get('/saves/:id', getSaves);
 
-router.post('/saves', overwriteSaves);
+router.post('/saves/:id', overwriteSaves);
 
 export { router };

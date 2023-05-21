@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
-import { LoginUser, User, CheckUserData } from "../interfaces/user_interface";
+import { LoginUser, User, CheckUserData, UpdateSave } from "../interfaces/user_interface";
 import { UserModel, /*LoginUserModel*/} from "../models/user"
-import { response } from "express";
 
 //verificaciones de datos e insercion
 const isValueUsed = async(body: CheckUserData) => {
@@ -44,35 +43,48 @@ const getUserId = async(login: LoginUser) => {
 const getUserSaves = async(_id: string) => {
     const responseFind = await UserModel.findOne(
         {
-            _id:_id
+            _id: new mongoose.Types.ObjectId(_id)
         },
         {
-            _id:false,
+            _id:true,
             guardado1:true,
             guardado2:true,
             guardado3:true,
         }
     )
-    const saves = [
-        {guardado1 : responseFind?.guardado1},
-        {guardado2 : responseFind?.guardado2},
-        {guardado3 : responseFind?.guardado3},
-    ];
+    let saves;
+    if (responseFind){
+        saves = {
+            _id: responseFind?._id,
+            guardados: [
+                {guardado1 : responseFind?.guardado1},
+                {guardado2 : responseFind?.guardado2},
+                {guardado3 : responseFind?.guardado3},
+            ]
+        };
+    } else {
+        saves = "ERROR_USER_NOT_FOUND"
+    }
+    
+    
     return saves;
 };
 
-const overwriteUserSaves = async(body: User) => {
+const overwriteUserSaves = async(_id:string, body: UpdateSave) => {
     const responseFind = await UserModel.findOneAndUpdate(
         {
-            _id:body._id
+            _id:new mongoose.Types.ObjectId(_id)
         },
         {
-            guardado1:body.guardado1,
-            guardado2:body.guardado2,
-            guardado3:body.guardado3,
+            $set:{
+                guardado1:body.guardado1,
+                guardado2:body.guardado2,
+                guardado3:body.guardado3,
+            }
+            
         },
     )
-    return responseFind;
+    return responseFind? responseFind: "ERROR_USER_NOT_FOUND";
 };
 
 export { insertUser, getUserId, isValueUsed, getUserSaves, overwriteUserSaves };

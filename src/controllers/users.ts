@@ -46,9 +46,9 @@ const getSaves = async (req:Request, res:Response) => {
     }
 }
 
-const overwriteSaves = async ({body}:Request, res:Response) => {
+const overwriteSaves = async (req:Request, res:Response) => {
     try{
-        const responseItem = await overwriteUserSaves(body);
+        const responseItem = await overwriteUserSaves(req.params.id, req.body);
         res.send(responseItem);
     } catch(e){
         handleHTTP(res, "ERROR_REGISTER_USER", e);
