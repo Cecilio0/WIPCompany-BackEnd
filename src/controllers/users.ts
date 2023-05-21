@@ -1,45 +1,58 @@
 import { Request, Response } from "express";
 import handleHTTP from "../utils/error.handler";
+import { insertUser, getUserId, isValueUsed, getUserSaves, overwriteUserSaves } from "../services/user";
 
 
-const getUser = (req:Request, res:Response) => {
+const logInUser = async(req:Request, res:Response) => {
     try{
+        const responseItem = await getUserId(
+            {
+                username: req.params.username,
+                password: req.params.password
+            }
+        );
 
+        const data = responseItem ? responseItem : { ERROR: "ERROR_LOGIN"}
+        res.send(data);
     } catch(e){
         handleHTTP(res, "ERROR_GET_ITEM");
     }
 }
 
-const getUsers = (req:Request, res:Response) => {
+const checkField = async({body}:Request, res:Response) => {
     try{
-        
+        const responseItem = await isValueUsed(body)
+        res.send(responseItem);
     } catch(e){
-        handleHTTP(res, "ERROR_GET_USERS");
+        handleHTTP(res, "ERROR_GET_USERS", e);
     }
 }
 
-const updateUser = (req:Request, res:Response) => {
+const registerUser = async({ body }:Request, res:Response) => {
     try{
-        
+        const responseItem = await insertUser(body);
+        res.send(responseItem);
     } catch(e){
-        handleHTTP(res, "ERROR_UPDATE_USER");
+        handleHTTP(res, "ERROR_REGISTER_USER", e);
     }
 }
 
-const registerUser = ({ body }:Request, res:Response) => {
+const getSaves = async (req:Request, res:Response) => {
     try{
-        res.send(body);
+        const responseItem = await getUserSaves(req.params.id);
+        res.send(responseItem);
     } catch(e){
-        handleHTTP(res, "ERROR_REGISTER_USER");
+        handleHTTP(res, "ERROR_REGISTER_USER", e);
     }
 }
 
-const deleteUser = (req:Request, res:Response) => {
+const overwriteSaves = async ({body}:Request, res:Response) => {
     try{
-
+        const responseItem = await overwriteUserSaves(body);
+        res.send(responseItem);
     } catch(e){
-        handleHTTP(res, "ERROR_DELETE_USER");
+        handleHTTP(res, "ERROR_REGISTER_USER", e);
     }
 }
 
-export { getUser, getUsers, updateUser, registerUser, deleteUser };
+export { logInUser, checkField, registerUser, getSaves, overwriteSaves};
