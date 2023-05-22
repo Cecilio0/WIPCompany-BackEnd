@@ -56,11 +56,9 @@ const getUserSaves = async(_id: string) => {
     if (responseFind){
         saves = {
             _id: responseFind?._id,
-            guardados: [
-                {guardado1 : responseFind?.guardado1},
-                {guardado2 : responseFind?.guardado2},
-                {guardado3 : responseFind?.guardado3},
-            ]
+            guardado1 : responseFind?.guardado1,
+            guardado2 : responseFind?.guardado2,
+            guardado3 : responseFind?.guardado3
         };
     } else {
         saves = "ERROR_USER_NOT_FOUND"
