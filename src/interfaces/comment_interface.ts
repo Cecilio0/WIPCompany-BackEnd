@@ -1,7 +1,12 @@
-interface comment{
-    _id:             number,
-    id_blog:        number,
-    id_usuario:     number,
-    fecha_creacion: Date,//se ingresa "yyyy-mm-dd"
-    contenido:      string
+export interface Comment{
+    _id:            object,
+    id_usuario:     object,
+    contenido:      string,
+    fecha_creacion: Date
+}
+
+export interface CommentVisual{
+    nombre_usuario?: string,
+    contenido:      string,
+    fecha_creacion: Date
 }
